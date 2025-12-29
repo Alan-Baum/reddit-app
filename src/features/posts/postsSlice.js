@@ -7,9 +7,9 @@ export const fetchPosts = createAsyncThunk(
       `https://www.reddit.com/r/${subreddit}.json`,
       {
         headers: {
-          // Reddit REQUIRES a User-Agent in production
-          'User-Agent': 'reddit-app:v1.0.0 (by /u/anonymous)',
+          'User-Agent': 'reddit-app:v1.0.0 (by /u/Alan-Baum)',
         },
+        mode: 'cors',
       }
     );
 
@@ -34,7 +34,7 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.pending, (state) => {
         state.isLoading = true;
-        state.hasError = false; // reset error
+        state.hasError = false;
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.isLoading = false;
