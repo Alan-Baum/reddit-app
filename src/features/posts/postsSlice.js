@@ -1,9 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async (subreddit) => {
-    const response = await fetch(`https://www.reddit.com/${subreddit}.json`);
+    const response = await fetch(
+      `https://www.reddit.com/${subreddit}.json`,
+      {
+        headers: {
+          // Reddit REQUIRES a User-Agent in production
+          'User-Agent': 'reddit-app (by /u/anonymous)',
+        },
+      }
+    );
+
     const json = await response.json();
     return json.data.children;
   }
@@ -11,12 +20,12 @@ export const fetchPosts = createAsyncThunk(
 
 const postsSlice = createSlice({
   name: 'posts',
-  initialState: { posts: [], isLoading: false, hasError: false },
-  reducers: {
-    loadData: (state, action) => {
-      state.posts = action.payload;
-    }
+  initialState: {
+    posts: [],
+    isLoading: false,
+    hasError: false,
   },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
@@ -34,5 +43,4 @@ const postsSlice = createSlice({
   },
 });
 
-export const { loadData } = postsSlice.actions;
 export default postsSlice.reducer;
