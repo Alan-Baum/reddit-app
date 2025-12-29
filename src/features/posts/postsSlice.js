@@ -4,14 +4,18 @@ export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async (subreddit) => {
     const response = await fetch(
-      `https://www.reddit.com/${subreddit}.json`,
+      `https://www.reddit.com/r/${subreddit}.json`,
       {
         headers: {
           // Reddit REQUIRES a User-Agent in production
-          'User-Agent': 'reddit-app (by /u/anonymous)',
+          'User-Agent': 'reddit-app:v1.0.0 (by /u/anonymous)',
         },
       }
     );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
+    }
 
     const json = await response.json();
     return json.data.children;
@@ -30,7 +34,7 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.pending, (state) => {
         state.isLoading = true;
-        state.hasError = false;
+        state.hasError = false; // reset error
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.isLoading = false;
