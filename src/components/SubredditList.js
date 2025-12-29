@@ -1,32 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setSubreddits,
-  selectSubreddit,
-} from '../features/subreddits/subredditsSlice';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectSubreddit } from '../features/subreddits/subredditsSlice';
 
 const SubredditList = () => {
   const dispatch = useDispatch();
-  const { subreddits, selectedSubreddit } = useSelector(
-    (state) => state.subreddits
+  const subreddits = useSelector((state) => state.subreddits.subreddits);
+  const selectedSubreddit = useSelector(
+    (state) => state.subreddits.selectedSubreddit
   );
 
-  useEffect(() => {
-    if (!subreddits.length) {
-      dispatch(setSubreddits(['r/popular', 'r/javascript']));
-      dispatch(selectSubreddit('r/popular')); // 🔥 THIS triggers fetchPosts
-    }
-  }, [dispatch, subreddits.length]);
+  const handleClick = (subreddit) => {
+    dispatch(selectSubreddit(subreddit));
+  };
 
   return (
     <ul className="subreddit-list">
-      {subreddits.map((sr) => (
+      {subreddits.map((subreddit) => (
         <li
-          key={sr}
-          className={sr === selectedSubreddit ? 'selected' : ''}
-          onClick={() => dispatch(selectSubreddit(sr))}
+          key={subreddit}
+          className={subreddit === selectedSubreddit ? 'selected' : ''}
+          onClick={() => handleClick(subreddit)}
         >
-          {sr}
+          r/{subreddit}
         </li>
       ))}
     </ul>
@@ -34,4 +29,3 @@ const SubredditList = () => {
 };
 
 export default SubredditList;
-
