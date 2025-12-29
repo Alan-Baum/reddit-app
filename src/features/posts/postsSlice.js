@@ -3,20 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async (subreddit) => {
-    const response = await fetch(
-      `https://www.reddit.com/r/${subreddit}.json`,
-      {
-        headers: {
-          'User-Agent': 'reddit-app:v1.0.0 (by /u/Alan-Baum)',
-        },
-        mode: 'cors',
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch posts');
-    }
-
+    // Browser-side fetch; no custom User-Agent needed
+    const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`);
     const json = await response.json();
     return json.data.children;
   }

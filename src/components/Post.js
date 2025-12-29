@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  fetchComments,
-  clearComments,
-} from '../features/comments/commentsSlice';
+import { fetchComments, clearComments } from '../features/comments/commentsSlice';
 import PostModal from './PostModal';
 
 const Post = ({ post }) => {
@@ -21,7 +18,6 @@ const Post = ({ post }) => {
     setShowModal(true);
   };
 
-  // Safely extract image
   const imageUrl =
     data.preview?.images?.[0]?.source?.url?.replace(/&amp;/g, '&');
 
@@ -39,20 +35,17 @@ const Post = ({ post }) => {
         </div>
 
         <div className="post-content">
-          {/* IMAGE FIRST */}
+          <div className="post-title">
+            {postType} {data.title}
+          </div>
+
           {imageUrl && (
             <img
               src={imageUrl}
               alt={data.title}
               className="post-image"
-              loading="lazy"
             />
           )}
-
-          {/* TITLE (ONLY ONCE) */}
-          <h3 className="post-title">
-            {postType} {data.title}
-          </h3>
 
           <div className="post-meta">
             Posted by <strong>u/{data.author}</strong>
@@ -65,10 +58,7 @@ const Post = ({ post }) => {
       </li>
 
       {showModal && (
-        <PostModal
-          post={data}
-          onClose={() => setShowModal(false)}
-        />
+        <PostModal post={data} onClose={() => setShowModal(false)} />
       )}
     </>
   );

@@ -2,10 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const subredditsSlice = createSlice({
   name: 'subreddits',
-  initialState: {
-    subreddits: [],
-    selectedSubreddit: 'popular', // ✅ DEFAULT
-  },
+  initialState: { subreddits: [], selectedSubreddit: 'popular' }, // default to popular
   reducers: {
     setSubreddits: (state, action) => {
       state.subreddits = action.payload;

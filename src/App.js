@@ -16,19 +16,14 @@ function App() {
   const selectedSubreddit = useSelector(
     (state) => state.subreddits.selectedSubreddit
   );
-
   const searchTerm = useSelector(selectSearchTerm);
-
   const posts = useSelector((state) => state.posts.posts);
   const isLoading = useSelector((state) => state.posts.isLoading);
   const hasError = useSelector((state) => state.posts.hasError);
 
   // 🚫 Prevent real API calls during tests
   useEffect(() => {
-    if (
-      selectedSubreddit &&
-      process.env.NODE_ENV !== 'test'
-    ) {
+    if (selectedSubreddit && process.env.NODE_ENV !== 'test') {
       dispatch(fetchPosts(selectedSubreddit));
     }
   }, [dispatch, selectedSubreddit]);
