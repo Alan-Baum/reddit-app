@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchPosts } from './features/posts/postsSlice';
-import { selectSubreddit } from './features/subreddits/subredditsSlice';
 import { selectSearchTerm } from './features/searchTerm/searchTermSlice';
 
 import SubredditList from './components/SubredditList';
